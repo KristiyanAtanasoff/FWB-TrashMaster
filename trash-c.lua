@@ -1,11 +1,16 @@
 local show, JobStarted, donedumps = false, false, nil, {}
 
-local bliplocation = vector2(859.18, -2358.3, 30.35)
+local bliplocation = vector3(859.18, -2358.3, 30.35)
 local blip = AddBlipForCoord(bliplocation.x, bliplocation.y, bliplocation.z)
 
-SetBlipDisplay(blip, 67)
+SetBlipSprite(blip, 318)
+SetBlipDisplay(blip, 6)
 SetBlipScale(blip, 0.9) 
 SetBlipColour(blip, 66)
+BeginTextCommandSetBlipName("STRING")
+AddTextComponentString("TrashMaster")
+EndTextCommandSetBlipName(blip)
+
 
 
 
