@@ -1,4 +1,4 @@
-local show, JobStarted, donedumps = false, false, nil, {}
+local show, JobStarted = false, false, {}
 
 local bliplocation = vector3(859.18, -2358.3, 30.35)
 local blip = AddBlipForCoord(bliplocation.x, bliplocation.y, bliplocation.z)
@@ -8,7 +8,7 @@ SetBlipDisplay(blip, 6)
 SetBlipScale(blip, 0.9) 
 SetBlipColour(blip, 66)
 BeginTextCommandSetBlipName("STRING")
-AddTextComponentString("TrashMaster")
+AddTextComponentString("TrashMaster Job")
 EndTextCommandSetBlipName(blip)
 
 
@@ -33,6 +33,7 @@ function NewBlip()
         coords  = GetEntityCoords(ped)
         distance = GetDistanceBetweenCoords(coords, objectif.x, objectif.y, objectif.z, true)
 		AddTextEntry("press_collect_trash2", 'Press ~INPUT_CONTEXT~ to collect the trash!')
+		--AddTextEntry("press_collect_trash2", 'Натисни ~INPUT_CONTEXT~ за да си натовариш боклука!')
 		DrawMarker(1, objectif.x, objectif.y, objectif.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 0, 255, 0, 100, false, true, 2, false, false, false, false)
             if distance <= 5 then
 			DisplayHelpTextThisFrame("press_collect_trash2")
@@ -46,6 +47,7 @@ function NewBlip()
         if IsControlJustPressed(1, 73) then
             RemoveBlip(blip)
 				drawnotifcolor ("Bring back the truck!", 25)
+				--drawnotifcolor ("Върни камиона и си вземи точките.", 25)
             StopService()
         end
     end
@@ -53,6 +55,7 @@ function NewBlip()
 function NotifChoise()
 
     drawnotifcolor ("Press ~g~E~w~ for new coords.\n~r~X~w~ to stop!", 140)
+	--drawnotifcolor ("Натисни ~g~E~w~ за нова локация.\n~r~X~w~ за да си спреш!", 140)
 
     local timer = 1200
 	while timer >= 1 do
@@ -66,6 +69,7 @@ function NotifChoise()
 
 		if IsControlJustPressed(1, 73) then
             drawnotifcolor ("Bring back the truck!", 25)
+			--drawnotifcolor ("Върни камиона и си вземи точките.", 25)
             StopService()
 
 			break
@@ -73,6 +77,7 @@ function NotifChoise()
 
         if timer == 1 then
             drawnotifcolor ("Bring back the truck!", 25)
+			--drawnotifcolor ("Върни камиона и си вземи точките.", 25)
             StopService()
             break
         end
@@ -91,6 +96,7 @@ function NewChoise()
     SetBlipRoute(blip, true)
     SetBlipRouteColour(blip, 3)
     drawnotifcolor("New location is set, press \n~r~X~w~ to stop it!", 140)
+	--drawnotifcolor("Нова локация бе зададена \n~r~X~w~ за да си спрете смяната!", 140)
     local coords  = GetEntityCoords(ped)
     local distance = GetDistanceBetweenCoords(coords, route.x, route.y, route.z, true)
 
@@ -99,8 +105,10 @@ function NewChoise()
 		coords  = GetEntityCoords(ped)
         distance = GetDistanceBetweenCoords(coords, route.x, route.y, route.z, true)
 		AddTextEntry("press_collect_trash", 'Press ~INPUT_CONTEXT~ to collect the trash!')
+		--AddTextEntry("press_collect_trash", 'Натисни ~INPUT_CONTEXT~ за да си натовариш боклука!')
         if distance <= 60 then 
             drawnotifcolor ("You are getting close!", 140)
+			--drawnotifcolor ("Наближавате дестинацията!", 140)
 			DrawMarker(1, route.x, route.y, route.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.5, 0, 255, 0, 100, false, true, 2, false, false, false, false)
             if distance <= 5 then
 			DisplayHelpTextThisFrame("press_collect_trash")
@@ -114,6 +122,7 @@ function NewChoise()
         if IsControlJustPressed(1, 73) then
             RemoveBlip(blip)
             drawnotifcolor ("Bring back the truck and get your EP.", 140)
+			--drawnotifcolor ("Върни камиона и си вземи точките.", 140)
 			
             StopService()
             break
@@ -126,6 +135,7 @@ function StopService()
     local coordsEndService = vector3(845.46, -2355.36, 30.33)
     local ped = GetPlayerPed(-1)
     AddTextEntry("press_ranger_rubble", 'Press ~INPUT_CONTEXT~ to store the truck!')
+	--AddTextEntry("press_ranger_rubble", 'Натисни ~INPUT_CONTEXT~ за да си прибереш камиона!')
 
     local blip = AddBlipForCoord(coordsEndService)
     SetBlipSprite(blip, 1)
@@ -146,7 +156,8 @@ function StopService()
 				if GetEntityModel(vehicle) == GetHashKey("rubble") then
 				DeleteEntity(vehicle)
 				TriggerServerEvent('GiveReward')
-				drawnotifcolor ("you were awarded with: 100 EP.", 140)
+				drawnotifcolor ("You were awarded with: 100 EP.", 140)
+				--drawnotifcolor ("Ти беше възнаграден с 100 EP.", 140)
 				RemoveBlip(blip)
                 JobStarted, show = false, false
 				break
@@ -154,6 +165,7 @@ function StopService()
                 local vehicle = GetVehiclePedIsIn(playerPed, false)
 				if GetEntityModel(vehicle) ~= GetHashKey("rubble") then
 				drawnotifcolor ("Bring back our truck or you will get no points!", 140)
+				--drawnotifcolor ("Върни ни камиона или няма да ти дадем точките!", 140)
 				JobStarted, show = true, true
 						break
 					end
@@ -188,6 +200,7 @@ end
 Citizen.CreateThread(function()
 
     AddTextEntry("press_start_job", "Press ~INPUT_CONTEXT~ to start your shift!")
+	--AddTextEntry("press_start_job", "Натисни ~INPUT_CONTEXT~ за да започнеш смяната!")
 
     while true do 
         Citizen.Wait(0)
@@ -199,10 +212,9 @@ Citizen.CreateThread(function()
             DisplayHelpTextThisFrame("press_start_job")
             if IsControlPressed(1, 38) then
                 StartJob()
-            end
-        end
-    end
-
+			end
+		end
+	end
 end)
 
 function drawnotifcolor(text, color)
