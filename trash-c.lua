@@ -1,18 +1,6 @@
 local show, JobStarted = false, false, {}
 
-local bliplocation = vector3(859.18, -2358.3, 30.35)
-local blip = AddBlipForCoord(bliplocation.x, bliplocation.y, bliplocation.z)
-
-SetBlipSprite(blip, 318)
-SetBlipDisplay(blip, 6)
-SetBlipScale(blip, 0.9) 
-SetBlipColour(blip, 66)
-BeginTextCommandSetBlipName("STRING")
-AddTextComponentString("TrashMaster Job")
-EndTextCommandSetBlipName(blip)
-
-
-
+-- BLIP TO TRASHDUMP
 
 function NewBlip()
 
@@ -51,6 +39,9 @@ function NewBlip()
             StopService()
         end
     end
+	
+	
+	--CHOSE IF YOU WANT TO CONTINUE
 
 function NotifChoise()
 
@@ -84,6 +75,8 @@ function NotifChoise()
 
 	end
 end
+
+--NEW TRASHDUMP 
 
 function NewChoise()
 
@@ -130,6 +123,8 @@ function NewChoise()
     end
 end
 
+--END SHIFT
+
 function StopService()
 
     local coordsEndService = vector3(845.46, -2355.36, 30.33)
@@ -175,6 +170,8 @@ function StopService()
 	end
 end
 
+--SPAWN THE VEHICLE
+
 function StartJob()
 
     local ped = GetPlayerPed(-1)
@@ -197,6 +194,8 @@ function StartJob()
 end
 
 
+--START SHIFT
+
 Citizen.CreateThread(function()
 
     AddTextEntry("press_start_job", "Press ~INPUT_CONTEXT~ to start your shift!")
@@ -217,6 +216,8 @@ Citizen.CreateThread(function()
 	end
 end)
 
+--NOTIFICATIONS
+
 function drawnotifcolor(text, color)
     Citizen.InvokeNative(0x92F0DA1E27DB96DC, tonumber(color))
     SetNotificationTextEntry("STRING")
@@ -224,6 +225,8 @@ function drawnotifcolor(text, color)
     DrawNotification(false, true)
 end
 
+
+--RANDOM CHOICE, CLEARER THAN MATH.RANDOM
 
 function math.randomchoice(d)
     local keys = {}
@@ -233,3 +236,20 @@ function math.randomchoice(d)
     index = keys[math.random(1, #keys)]
     return d[index]
 end
+
+--BLIP FOR MAP
+
+Citizen.CreateThread(function()
+
+local bliplocation = vector3(859.18, -2358.3, 30.35)
+local blip = AddBlipForCoord(bliplocation.x, bliplocation.y, bliplocation.z)
+
+SetBlipSprite(blip, 318)
+SetBlipDisplay(blip, 6)
+SetBlipScale(blip, 0.9) 
+SetBlipColour(blip, 66)
+BeginTextCommandSetBlipName("STRING")
+AddTextComponentString("TrashMaster Job")
+EndTextCommandSetBlipName(blip)
+
+end)
