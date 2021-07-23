@@ -80,8 +80,10 @@ end
 
 function NewChoise()
 
+
     local route = math.randomchoice(Config.pos)
     local ped = GetPlayerPed(-1)
+	local vehicle = GetVehiclePedIsIn(ped, false)
 
     local blip = AddBlipForCoord(route.x, route.y, route.z)
     SetBlipSprite(blip, 1)
@@ -150,6 +152,7 @@ function StopService()
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				if GetEntityModel(vehicle) == GetHashKey("rubble") then
 				DeleteEntity(vehicle)
+				DeleteEntity(trashbag)
 				TriggerServerEvent('GiveReward')
 				drawnotifcolor ("You were awarded with: 100 EP.", 140)
 				--drawnotifcolor ("Ти беше възнаграден с 100 EP.", 140)
@@ -186,6 +189,7 @@ function StartJob()
     local vehicle = CreateVehicle(vehicleName, 859.18, -2358.3, 30.35, 354.76, true, false)
     SetPedIntoVehicle(ped, vehicle, -1)
     SetEntityAsMissionEntity(vehicle, true, true)
+	SetVehicleExtra(vehicle, 2, false)
     SetModelAsNoLongerNeeded(vehicleName)
     JobStarted = true
 
